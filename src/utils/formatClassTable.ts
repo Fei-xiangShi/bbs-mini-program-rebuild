@@ -1,4 +1,4 @@
-function expandRanges(ranges: string[]): number[] {
+const expandRanges = (ranges: string[]): number[] => {
   const result: number[] = [];
 
   for (const range of ranges) {
@@ -23,6 +23,27 @@ function expandRanges(ranges: string[]): number[] {
   }
   return result;
 }
+
+const expandSchedule = (ranges: string[]): number[] => {
+  const result: number[] = [];
+
+  for (const range of ranges) {
+      const [startStr, endStr] = range.split('-');
+      if (!endStr) {
+          result.push(parseInt(range));
+          continue;
+      }
+      const start = parseInt(startStr);
+      const end = parseInt(endStr);
+
+      for (let i = start; i <= end; i++) {
+          result.push(i);
+      }
+  }
+
+  return result;
+}
+
 
 const formatClassTable = () => {
   const briefList: any = [];
@@ -56,6 +77,12 @@ const formatClassTable = () => {
           }
           courseByWeeks[item[key][i]].push(brief);
         }
+      }
+      if (key === "xqj") {
+        item[key] = parseInt(item[key]);
+      }
+      if (key === "jc") {
+        item[key] = expandSchedule(item[key].replace(/节/g, "").split(","));
       }
       brief.push(item[key]);
     });
