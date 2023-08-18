@@ -3,11 +3,16 @@
   <view class="navToAriticlePublishPage" @tap="navToArticlePublishPage"
     ><u-text>+</u-text></view
   >
+  <u-back-top
+    :scrollTop="0"
+    top="20px"
+  ></u-back-top>
   <view class="search-bar">
-    <searchBar
+    <u-search
       placeholder="查找标题或作者"
       class="header-search-bar"
       @search="searchPassage"
+      :animation="true"
     />
   </view>
   <view :class="body">
@@ -18,6 +23,13 @@
         :article="item"
       ></articleItem>
     </view>
+    <u-loadmore 
+				loadmoreText="看,我和别人不一样"
+				color="#1CD29B"
+				lineColor="#1CD29B"
+				dashed
+				line
+    />
   </view>
 </template>
 
@@ -28,7 +40,6 @@ import { onLoad, onReachBottom, onPullDownRefresh } from "@dcloudio/uni-app";
 import { reactive, onMounted, ref } from "vue";
 import { ArticleList } from "@/model/articleList";
 import navbar from "@/components/navbar.vue";
-import searchBar from "@/components/searchBar.vue";
 import routes from "@/config/routes";
 import ResponseCheck from "@/utils/responseCheck";
 

@@ -22,28 +22,24 @@
       </view>
     </view>
   </view>
-  <view class="sidebar" v-if="showSidebar">
-    <view class="sidebar-title">你好</view>
-    <view class="menu">
-      <scroll-view scroll-y="true" style="height: 100%">
-        <view
-          v-for="item in menuList"
-          :key="item.id"
-          class="menu-item"
-          :id="item.id"
-          @tap="changeCategory"
-          >{{ item.name }}区</view
-        >
-      </scroll-view>
-    </view>
-  </view>
 
-  <view
-    @tap="toggleSidebar"
-    class="drawer"
-    v-if="showSidebar"
-    @touchmove.stop.prevent="true"
-  ></view>
+  <u-overlay :show="showSidebar" @tap="toggleSidebar">
+    <view class="sidebar" v-if="showSidebar" @tap.stop>
+      <view class="sidebar-title">你好</view>
+      <view class="menu">
+        <scroll-view scroll-y="true" style="height: 100%">
+          <view
+            v-for="item in menuList"
+            :key="item.id"
+            class="menu-item"
+            :id="item.id"
+            @tap="changeCategory"
+            >{{ item.name }}区</view
+          >
+        </scroll-view>
+      </view>
+    </view>
+  </u-overlay>
 </template>
 
 <script setup lang="ts">
@@ -193,16 +189,5 @@ onHide(() => {
   text-align: center;
   font-size: 1rem;
   border-bottom: 1px solid #eee;
-}
-
-.drawer {
-  top: 0;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-color: gray;
-  z-index: 20;
-  opacity: 0.6;
-  overflow: hidden;
 }
 </style>
