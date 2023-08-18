@@ -3,10 +3,7 @@
   <view class="navToAriticlePublishPage" @tap="navToArticlePublishPage"
     ><u-text>+</u-text></view
   >
-  <u-back-top
-    :scrollTop="0"
-    top="20px"
-  ></u-back-top>
+  <u-back-top :scrollTop="0" top="20px"></u-back-top>
   <view class="search-bar">
     <u-search
       placeholder="查找标题或作者"
@@ -23,12 +20,12 @@
         :article="item"
       ></articleItem>
     </view>
-    <u-loadmore 
-				loadmoreText="看,我和别人不一样"
-				color="#1CD29B"
-				lineColor="#1CD29B"
-				dashed
-				line
+    <u-loadmore
+      loadmoreText="看,我和别人不一样"
+      color="#1CD29B"
+      lineColor="#1CD29B"
+      dashed
+      line
     />
   </view>
 </template>
@@ -80,10 +77,6 @@ const concatenatingArticleList = (response: any) => {
 };
 
 const searchPassage = (e: string | number) => {
-  isSearching = true;
-  artList.list = [];
-  artList.page = 1;
-  uni.setStorageSync("isViewing", e);
   if (!e) {
     uni.showToast({
       title: "请输入关键字",
@@ -91,6 +84,10 @@ const searchPassage = (e: string | number) => {
     });
     return;
   }
+  isSearching = true;
+  artList.list = [];
+  artList.page = 1;
+  uni.setStorageSync("isViewing", e);
   let response = null;
   if (!isNaN(Number(e))) {
     response = Api.searchArticle("BY_ID", e, artList.page);

@@ -20,9 +20,9 @@
     ></u-tabs>
   </view>
   <classTable :classTable="briefList[now]" />
-  <!-- <view class="classTable" v-for="item in briefList[now]">
+  <view class="classTable" v-for="item in briefList[now]">
     <view> {{ item }}</view>
-  </view> -->
+  </view>
 </template>
 
 <script setup lang="ts">
