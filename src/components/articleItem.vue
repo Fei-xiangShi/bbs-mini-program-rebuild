@@ -15,7 +15,7 @@
           </view>
 
           <view class="date">
-            <u-text text="2023年8月18日" prefixIcon="order" :lines="1" />
+            <u-text :text="article.gmtCreate" prefixIcon="order" :lines="1" />
           </view>
 
           <view class="comments-count" v-if="!article.thumbnailUrl">
