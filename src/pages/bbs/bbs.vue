@@ -170,8 +170,8 @@ onMounted(() => {
   right: 10%;
   font-size: 50px;
   vertical-align: middle;
-  width: 50px;
-  height: 50px;
+  width: 3.5rem;
+  height: 3.5rem;
   border: 2px solid;
   border-radius: 60px;
   ::before,

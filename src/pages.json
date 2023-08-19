@@ -33,7 +33,10 @@
       }
     },
     {
-      "path": "pages/classTable/classTable"
+      "path": "pages/classTable/classTable",
+      "style": {
+        "navigationStyle": "custom"
+      }
     },
     {
       "path": "pages/bbs/articlePublish",

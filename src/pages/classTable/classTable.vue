@@ -1,45 +1,45 @@
 <template>
-  <view
-    :class="['refresh', { reloading: isRefreshing }]"
-    @tap="refreshClassTable"
-  >
-    <u-icon name="reload" size="35" class="icon" />
+  <view class="statusBar" :style="{ paddingTop: statusBarHeight + 'px' }" />
+  <view class="navBar">
+    <view class="title">
+      <u-text class="title-text" :text="currentDate" />
+    </view>
   </view>
+  <view class="body">
+    <view
+      class="refresh"
+      :class="[isRefreshing ? 'reloading' : '']"
+      @tap="refreshClassTable"
+    >
+      <u-icon name="reload" size="35" class="icon" />
+    </view>
 
-  <view>
-    <u-tabs
-      :list="weeks"
-      @click="toggleNow"
-      lineWidth="30"
-      lineColor="#f56c6c"
-      :activeStyle="{
-        color: '#303133',
-        fontWeight: 'bold',
-        transform: 'scale(1.05)',
-      }"
-      :inactiveStyle="{
-        color: '#606266',
-        transform: 'scale(1)',
-      }"
-      :current="now - 1"
-    ></u-tabs>
-  </view>
-  <view
-    class="class-table-item"
-    @touchstart="touchStart"
-    @touchend="touchEnd"
-  >
-    <u-row customStyle="margin-bottom: 5px">
-      <u-col span="0.8">
-        <view class="month">{{ getMonthName(now) }}</view>
-      </u-col>
-      <u-col span="1.6" v-for="(day, index) in days" :key="index">
-        <view class="weekday">{{ day.weekday }}</view>
-        <view class="date">{{ day.date }}</view>
-      </u-col>
-    </u-row>
-    <view class="classTable" v-for="item in briefList[now]">
-      <view> {{ item }}</view>
+    <view>
+      <u-tabs
+        :list="weeks"
+        @click="toggleNow"
+        lineWidth="30"
+        lineColor="#f56c6c"
+        :activeStyle="{
+          color: '#303133',
+          fontWeight: 'bold',
+          transform: 'scale(1.05)',
+        }"
+        :inactiveStyle="{
+          color: '#606266',
+          transform: 'scale(1)',
+        }"
+        :current="now - 1"
+      ></u-tabs>
+    </view>
+    <view
+      class="class-table-item"
+      @touchstart="touchStart"
+      @touchend="touchEnd"
+    >
+      <view class="classTable">
+        <classTable :tableItem="briefList[now]" :now="now" />
+      </view>
     </view>
   </view>
 </template>
@@ -50,9 +50,20 @@ import Api from "@/public/api";
 import { onLoad } from "@dcloudio/uni-app";
 import formatClassTable from "@/utils/formatClassTable";
 import semester from "@/config/semesterDuration";
+import classTable from "@/components/classTableItem.vue";
 
+const statusBarHeight = uni.getSystemInfoSync().statusBarHeight;
 const now = ref(1);
 let weeks: any = [];
+
+const currentDate = ref(formatDate(new Date()));
+
+function formatDate(date: Date): string {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  return `${year}年${month}月${day}日`;
+}
 
 for (let i = 1; i <= 20; i++) {
   weeks.push({
@@ -62,7 +73,6 @@ for (let i = 1; i <= 20; i++) {
 }
 const toggleNow = (e: any) => {
   now.value = Number(e.id);
-  generateDateRange(semester.start, semester.end);
 };
 
 const isRefreshing = ref(false);
@@ -72,62 +82,11 @@ const refreshClassTable = () => {
   Api.getClassTable().then((res: any) => {
     uni.setStorageSync("classTable", res.data || []);
     briefList.value = formatClassTable();
+    isRefreshing.value = false;
   });
-  isRefreshing.value = false;
 };
 
 let briefList = ref(uni.getStorageSync("courseByWeeks"));
-
-const days = ref([{ date: 0, weekday: "" }]);
-
-const getWeekdayName = (dayIndex: number) => {
-  const weekdays = ["日", "一", "二", "三", "四", "五", "六"];
-  return weekdays[dayIndex];
-};
-
-const getMonthName = (week: number) => {
-  const startDate = new Date(semester.start);
-  const currentWeekStartDate = new Date(
-    startDate.getTime() + (week - 1) * 7 * 24 * 60 * 60 * 1000
-  );
-  const monthNames = [
-    "1月",
-    "2月",
-    "3月",
-    "4月",
-    "5月",
-    "6月",
-    "7月",
-    "8月",
-    "9月",
-    "10月",
-    "11月",
-    "12月",
-  ];
-  const monthIndex = currentWeekStartDate.getMonth();
-  return monthNames[monthIndex];
-};
-
-const generateDateRange = (startDate: string, endDate: string) => {
-  const start = new Date(startDate);
-
-  days.value = [];
-  const currentWeekStartDate = new Date(
-    start.getTime() + (now.value - 1) * 7 * 24 * 60 * 60 * 1000
-  );
-  const end = new Date(
-    currentWeekStartDate.getTime() + 7 * 24 * 60 * 60 * 1000
-  );
-  for (
-    let current = currentWeekStartDate;
-    current <= end && current <= new Date(endDate);
-    current.setDate(current.getDate() + 1)
-  ) {
-    const date = current.getDate();
-    const weekday = getWeekdayName(current.getDay());
-    days.value.push({ date, weekday });
-  }
-};
 
 onLoad(() => {
   if (briefList.value.length === 0) {
@@ -142,9 +101,7 @@ onLoad(() => {
   const currentWeek = Math.max(1, Math.min(20, Math.floor(daysDiff / 7) + 1));
 
   now.value = currentWeek;
-  generateDateRange(semester.start, semester.end);
 });
-
 let startX = 0;
 let startY = 0;
 
@@ -162,12 +119,10 @@ const touchEnd = (e: any) => {
     if (deltaX > 0) {
       if (now.value > 1) {
         now.value--;
-        generateDateRange(semester.start, semester.end);
       }
     } else {
       if (now.value < 20) {
         now.value++;
-        generateDateRange(semester.start, semester.end);
       }
     }
   }
@@ -175,27 +130,18 @@ const touchEnd = (e: any) => {
 </script>
 
 <style lang="scss" scoped>
-.weekday {
-  height: 25px;
-  background: #ced7e1;
-  text-align: center;
-  border: 1px solid #e5e9f2;
-  line-height: 25px;
+.statusBar {
+  width: 100%;
+  height: 0;
+  background-color: rgb(255, 255, 255);
 }
 
-.month {
-  height: 50px;
-  background: #ced7e1;
-  text-align: center;
-  border: 1px solid #e5e9f2;
-  line-height: 25px;
-}
-.date {
-  height: 25px;
-  background: #ced7e1;
-  text-align: center;
-  border: 1px solid #e5e9f2;
-  line-height: 25px;
+.navBar {
+  display: flex;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+  color: #fff;
+  height: 44px;
 }
 
 .refresh {
@@ -213,6 +159,7 @@ const touchEnd = (e: any) => {
 
 .reloading {
   animation: rotateAnimation 2s linear infinite;
+  pointer-events: none;
 }
 
 @keyframes rotateAnimation {
