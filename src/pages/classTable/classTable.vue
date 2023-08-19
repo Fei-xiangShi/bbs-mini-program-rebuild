@@ -1,10 +1,9 @@
 <template>
-  <view :class="['refresh', { reloading: isRefreshing }]" @tap="refreshClassTable">
-    <u-icon
-      name="reload"
-      size="35"
-      class="icon"
-    />
+  <view
+    :class="['refresh', { reloading: isRefreshing }]"
+    @tap="refreshClassTable"
+  >
+    <u-icon name="reload" size="35" class="icon" />
   </view>
 
   <view>
@@ -22,19 +21,26 @@
         color: '#606266',
         transform: 'scale(1)',
       }"
+      :current="now - 1"
     ></u-tabs>
   </view>
-  <u-row customStyle="margin-bottom: 5px">
-    <u-col span="0.8">
-      <view class="month">{{ getMonthName(now) }}</view>
-    </u-col>
-    <u-col span="1.6" v-for="(day, index) in days" :key="index">
-      <view class="weekday">{{ day.weekday }}</view>
-      <view class="date">{{ day.date }}</view>
-    </u-col>
-  </u-row>
-  <view class="classTable" v-for="item in briefList[now]">
-    <view> {{ item }}</view>
+  <view
+    class="class-table-item"
+    @touchstart="touchStart"
+    @touchend="touchEnd"
+  >
+    <u-row customStyle="margin-bottom: 5px">
+      <u-col span="0.8">
+        <view class="month">{{ getMonthName(now) }}</view>
+      </u-col>
+      <u-col span="1.6" v-for="(day, index) in days" :key="index">
+        <view class="weekday">{{ day.weekday }}</view>
+        <view class="date">{{ day.date }}</view>
+      </u-col>
+    </u-row>
+    <view class="classTable" v-for="item in briefList[now]">
+      <view> {{ item }}</view>
+    </view>
   </view>
 </template>
 
@@ -66,9 +72,8 @@ const refreshClassTable = () => {
   Api.getClassTable().then((res: any) => {
     uni.setStorageSync("classTable", res.data || []);
     briefList.value = formatClassTable();
-    isRefreshing.value = false;
   });
-
+  isRefreshing.value = false;
 };
 
 let briefList = ref(uni.getStorageSync("courseByWeeks"));
@@ -131,12 +136,42 @@ onLoad(() => {
   }
   const currentDate = Number(new Date());
   const startDate = Number(new Date(semester.start));
-  const daysDiff = Math.floor((currentDate - startDate) / (7 * 24 * 60 * 60 * 1000));
+  const daysDiff = Math.floor(
+    (currentDate - startDate) / (7 * 24 * 60 * 60 * 1000)
+  );
   const currentWeek = Math.max(1, Math.min(20, Math.floor(daysDiff / 7) + 1));
 
   now.value = currentWeek;
   generateDateRange(semester.start, semester.end);
 });
+
+let startX = 0;
+let startY = 0;
+
+const touchStart = (e: any) => {
+  const touch = e.touches[0];
+  startX = touch.clientX;
+  startY = touch.clientY;
+};
+
+const touchEnd = (e: any) => {
+  const touch = e.changedTouches[0];
+  const deltaX = touch.clientX - startX;
+  const deltaY = touch.clientY - startY;
+  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    if (deltaX > 0) {
+      if (now.value > 1) {
+        now.value--;
+        generateDateRange(semester.start, semester.end);
+      }
+    } else {
+      if (now.value < 20) {
+        now.value++;
+        generateDateRange(semester.start, semester.end);
+      }
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -175,7 +210,6 @@ onLoad(() => {
   align-items: center;
   justify-content: center;
 }
-
 
 .reloading {
   animation: rotateAnimation 2s linear infinite;
