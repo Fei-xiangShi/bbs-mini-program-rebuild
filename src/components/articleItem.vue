@@ -3,7 +3,7 @@
     <view class="article-container">
       <view class="article-components">
         <view class="title">
-          <u-text :text="article.title" :lines="1" :size="25" :bold="true" />
+          <u-text :text="article.title" :lines="1" :size="24" :bold="true" />
         </view>
         <view class="info">
           <view class="author">
@@ -15,7 +15,13 @@
           </view>
 
           <view class="date">
-            <u-text :text="article.gmtCreate" prefixIcon="order" :lines="1" />
+            <u-text
+              :text="
+                new Date(article.gmtCreate).toLocaleDateString('zh-CN', options)
+              "
+              prefixIcon="order"
+              :lines="1"
+            />
           </view>
 
           <view class="comments-count" v-if="!article.thumbnailUrl">
@@ -47,6 +53,8 @@
 
 <script setup lang="ts">
 import routes from "@/config/routes";
+
+const options = { month: "long", day: "numeric", weekday: "long" };
 
 const props = defineProps({
   article: {
@@ -99,7 +107,7 @@ const showDetail = () => {
 
 .date {
   margin-left: 0.8rem auto;
-  width: 10rem auto;
+  width: 12rem auto;
 }
 
 .comments-count {

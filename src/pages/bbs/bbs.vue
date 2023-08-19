@@ -21,7 +21,7 @@
       ></articleItem>
     </view>
     <u-loadmore
-      loadmoreText="看,我和别人不一样"
+      loadmoreText="看, 我和别人不一样"
       color="#1CD29B"
       lineColor="#1CD29B"
       dashed
