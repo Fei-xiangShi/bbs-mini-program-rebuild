@@ -42,14 +42,16 @@
         一处风声，看落花流萤，那粉色佳人，摇曳，摇曳。苍天赐予一个多情的梦，在花落之间。怎堪月痩影单，残风缠绵，好一个悲曲，绚烂绚烂。
       </view>
       <view class="device-information">
-        <view>欢迎来自 {{ IpInfo.data.addr }} 的用户</view>
+        <view>欢迎来自 {{ IpInfo.query }} 的用户</view>
         <view
-          >您现在位于 {{ IpInfo.data.province + " " + IpInfo.data.city }}</view
+          >您现在位于
+          {{
+            IpInfo.country === "中国"
+              ? IpInfo.regionName + " " + IpInfo.city
+              : IpInfo.country
+          }}</view
         >
-        <view
-          >您现在正在使用
-          {{ deviceInfo.osName + " " + deviceInfo.osVersion }}</view
-        >
+        <view>您现在正在使用 {{ deviceInfo.system }}</view>
       </view>
     </view>
     <u-popup
@@ -77,18 +79,10 @@ import initUser from "@/utils/initUser";
 
 let deviceInfo = uni.getSystemInfoSync();
 let IpInfo = ref({
-  code: 0,
-  message: "",
-  ttl: "",
-  data: {
-    addr: "",
-    country: "",
-    province: "",
-    city: "",
-    isp: "",
-    zone_id: "",
-    country_code: 0,
-  },
+  country: "",
+  regionName: "",
+  city: "",
+  query: "",
 });
 
 let isAgree = ref(false);
@@ -135,6 +129,7 @@ onLoad(() => {
   Api.getIpInfo().then((res: any) => {
     IpInfo.value = res.data;
   });
+
   initUser();
   if (uni.getStorageSync("jwtIsExpired") === false) {
     if (uni.getStorageSync("user")) {

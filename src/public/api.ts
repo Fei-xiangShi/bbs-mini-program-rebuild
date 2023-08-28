@@ -3,7 +3,20 @@ import apiUrl from "@/config/apiConfig";
 
 const Api = {
   //获得ip信息
-  getIpInfo: () => http.get(apiUrl.getIpInfo, {}),
+  getIpInfo: () => {
+    return new Promise((resolve, reject) => {
+      uni.request({
+        url: apiUrl.getIpInfo,
+        method: "GET",
+        success: (res: any) => {
+          resolve(res);
+        },
+        fail: (err: any) => {
+          reject(err);
+        },
+      });
+    });
+  },
   // 获取登录状态
   getJwtIsExpired: () => http.get("/", {}),
   // 获取首页数据

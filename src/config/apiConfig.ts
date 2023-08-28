@@ -2,7 +2,7 @@ import SiteConfig from "@/config/requestUrl";
 
 const Url = {
   // ip
-  getIpInfo: "/ip",
+  getIpInfo: "http://ip-api.com/json/?lang=zh-CN",
   // 主页
   frontPage: "/frontPage",
   // 文章
