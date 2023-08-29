@@ -62,6 +62,11 @@ const formatClassTable = () => {
   ];
   let courseByWeeks: any = {};
   classTable.value.forEach((item: any) => {
+    let newItem: any = {};
+    neededList.forEach((key) => {
+      newItem[key] = item[key];
+    });
+    item = newItem;
     const days: any = {};
     item["zcd"] = item["zcd"].replace(/周/g, "").split(",");
     item["zcd"] = expandRanges(item["zcd"]);

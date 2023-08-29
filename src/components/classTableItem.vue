@@ -20,7 +20,7 @@
           <view
             v-if="tableItem && tableItem[x + 1] && tableItem[x + 1][String(y)]"
             @tap="showDetails(tableItem[x + 1][String(y)])"
-            >有课</view
+            >{{tableItem[x + 1][String(y)]["kcmc"]}}</view
           >
         </view>
       </u-col>
@@ -77,7 +77,6 @@ const days = ref([{ date: 0, weekday: "" }]);
 
 const showDetails = (item: any) => {
   showDetail.value = true;
-  console.log(item);
   show.value = item;
 };
 
