@@ -16,25 +16,12 @@
         <view class="month">{{ y }} {{ time }}</view>
       </u-col>
       <u-col span="1.6" v-for="(day, x) in days">
-        <view class="class-detail" v-for="item in tableItem">
+        <view class="class-detail" :class="[`x-${x}`, `y-${y - 1}`]">
           <view
-            class="weekday"
-            v-if="item[7] == x + 1 && item[6].includes(Number(y))"
-            @tap="showDetails(item)"
-            >{{ item[0] }}</view
+            v-if="tableItem && tableItem[x + 1] && tableItem[x + 1][String(y)]"
+            @tap="showDetails(tableItem[x + 1][String(y)])"
+            >有课</view
           >
-          <!-- <view
-            class="date"
-            v-if="item[7] == x + 1 && item[6].includes(Number(y))"
-          >
-            {{ item[1] }}</view
-          > -->
-          <!-- <view
-            class="date"
-            v-if="item[7] == x + 1 && item[6].includes(Number(y))"
-          >
-            {{ item[4] }}</view
-          > -->
         </view>
       </u-col>
     </u-row>
@@ -47,10 +34,10 @@
       :closeable="true"
     >
       <view> COURSE DETAIL</view>
-      <view>{{ show[1] }} {{ show[0] }}</view>
-      <view>教师: {{ show[4] }}</view>
-      <view>学分: {{ show[5] }}</view>
-      <view>分类: {{ show[3] }}</view>
+      <view>{{ show["kcmc"] }} {{ show["cdmc"] }}</view>
+      <view>教师: {{ show["xm"] }}</view>
+      <view>学分: {{ show["xf"] }}</view>
+      <view>分类: {{ show["kcxz"] }}</view>
     </u-popup>
   </view>
 </template>
@@ -79,11 +66,18 @@ watch(
 );
 
 const showDetail = ref(false);
-const show = ref([]);
+const show = ref({
+  kcmc: "",
+  cdmc: "",
+  xm: "",
+  xf: "",
+  kcxz: "",
+});
 const days = ref([{ date: 0, weekday: "" }]);
 
 const showDetails = (item: any) => {
   showDetail.value = true;
+  console.log(item);
   show.value = item;
 };
 
