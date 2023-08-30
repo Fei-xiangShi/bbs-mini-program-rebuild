@@ -1,30 +1,65 @@
 <template>
-  <view class="class-table-header">
+  <view class="class-table-header" ref="headerHeight">
     <u-row customStyle="margin-bottom: 5px">
       <u-col span="0.8">
         <view class="month">{{ getMonthName(now) }}</view>
       </u-col>
       <u-col span="1.6" v-for="(day, index) in days" :key="index">
-        <view class="weekday">{{ day.weekday }}</view>
-        <view class="date">{{ day.date }}</view>
+        <view
+          class="weekday"
+          :class="[day.weekday === getWeekdayName(currentDay) ? 'today' : '']"
+          >{{ day.weekday }}</view
+        >
+        <view
+          class="date"
+          :class="[day.weekday === getWeekdayName(currentDay) ? 'today' : '']"
+          >{{ day.date }}</view
+        >
       </u-col>
     </u-row>
   </view>
+
   <view class="class-table-main">
-    <u-row v-for="(time, y) in classArrangement" :key="y">
-      <u-col span="0.8">
-        <view class="month">{{ y }} {{ time }}</view>
+    <view class="timelist">
+      <u-col span="0.8" v-for="(time, y) in classArrangement">
+        <view class="class-order">{{ y }}</view>
+        <view class="time">{{ time }}</view>
       </u-col>
+    </view>
+    <view class="classlist" v-if="tableItem">
       <u-col span="1.6" v-for="(day, x) in days">
-        <view class="class-detail" :class="[`x-${x}`, `y-${y - 1}`]">
+        <u-row
+          v-if="tableItem[x + 1]"
+          v-for="(time, y) in tableItem[x + 1]"
+          :key="y"
+        >
           <view
-            v-if="tableItem && tableItem[x + 1] && tableItem[x + 1][String(y)]"
-            @tap="showDetails(tableItem[x + 1][String(y)])"
-            >{{tableItem[x + 1][String(y)]["kcmc"]}}</view
+            v-if="tableItem[x + 1][y]"
+            class="class-detail"
+            :class="[`x-${x}`, `y-${y}`]"
+            :style="{
+              height: tableItem[x + 1][y]['jc'].length * 6.6 + 'vh',
+              marginTop: tableItem[x + 1][y - 1]
+                ? (tableItem[x + 1][y]['jc'][0] -
+                    tableItem[x + 1][y - 1]['jc'][
+                      tableItem[x + 1][String(y - 1)]['jc'].length - 1
+                    ] -
+                    1) *
+                    6.6 +
+                  'vh'
+                : 0,
+            }"
           >
-        </view>
+            <view @tap="showDetails(tableItem[x + 1][y])">{{
+              `${tableItem[x + 1][y]["kcmc"]}\n@${
+                tableItem[x + 1][y]["cdmc"]
+              }\n${tableItem[x + 1][y]["xm"]}`
+            }}</view>
+          </view>
+        </u-row>
       </u-col>
-    </u-row>
+    </view>
+
     <u-popup
       :show="showDetail"
       mode="center"
@@ -65,6 +100,7 @@ watch(
   }
 );
 
+const headerHeight = ref();
 const showDetail = ref(false);
 const show = ref({
   kcmc: "",
@@ -74,6 +110,8 @@ const show = ref({
   kcxz: "",
 });
 const days = ref([{ date: 0, weekday: "" }]);
+
+const currentDay = new Date().getDay();
 
 const showDetails = (item: any) => {
   showDetail.value = true;
@@ -139,26 +177,56 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-.weekday {
-  height: 25px;
-  background: #ced7e1;
-  text-align: center;
-  border: 1px solid #e5e9f2;
-  line-height: 25px;
-}
-
 .month {
-  height: 50px;
-  background: #ced7e1;
   text-align: center;
-  border: 1px solid #e5e9f2;
-  line-height: 25px;
+}
+.weekday {
+  text-align: center;
 }
 .date {
-  height: 25px;
-  background: #ced7e1;
   text-align: center;
-  border: 1px solid #e5e9f2;
-  line-height: 25px;
+}
+
+.class-table-main {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.timelist {
+  display: flex;
+  flex-direction: column;
+}
+
+.classlist {
+  display: flex;
+  position: relative;
+  left: 1.6rem;
+}
+
+.class-order {
+  display: flex;
+  font-weight: 600;
+
+  font-size: small;
+  height: 1rem;
+}
+
+.time {
+  height: 1rem;
+  font-weight: 400;
+  font-size: 0.55rem;
+  text-align: center;
+}
+
+.class-detail {
+  height: 2.8rem;
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.today {
+  background-color: #e5e9f2;
 }
 </style>

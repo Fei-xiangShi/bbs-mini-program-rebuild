@@ -155,6 +155,7 @@ const touchEnd = (e: any) => {
   right: 10%;
   align-items: center;
   justify-content: center;
+  z-index: 1000;
 }
 
 .reloading {

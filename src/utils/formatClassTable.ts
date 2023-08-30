@@ -67,33 +67,21 @@ const formatClassTable = () => {
       newItem[key] = item[key];
     });
     item = newItem;
-    const days: any = {};
     item["zcd"] = item["zcd"].replace(/周/g, "").split(",");
     item["zcd"] = expandRanges(item["zcd"]);
     let weeks = item["zcd"];
     console.log(weeks);
     item["jc"] = expandSchedule(item["jc"].replace(/节/g, "").split(","));
-    let courses = item["jc"];
     let day = item["xqj"];
-    if (!days[day]) {
-      days[day] = {};
-    }
-    courses.forEach((course: number) => {
-      days[day][course] = item;
-    });
+    console.log(day);
     for (let week = 0; week < weeks.length; week++) {
       if (!courseByWeeks[weeks[week]]) {
         courseByWeeks[weeks[week]] = {};
       }
-      for (let day = 1; day <= 7; day++) {
-        if (!courseByWeeks[weeks[week]][day]) {
-          courseByWeeks[weeks[week]][day] = {};
-        }
-        courseByWeeks[weeks[week]][day] = {
-          ...courseByWeeks[weeks[week]][day],
-          ...days[day],
-        };
+      if (!courseByWeeks[weeks[week]][day]) {
+        courseByWeeks[weeks[week]][day] = [];
       }
+      courseByWeeks[weeks[week]][day].push(item);
     }
   });
   uni.setStorageSync("courseByWeeks", courseByWeeks);

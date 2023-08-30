@@ -27,10 +27,48 @@ const RouteConfig = {
     path: "/pages/home/modifyPersonalInfo"
   },
   // index
-  catCafe: {
-    name: "猫咖",
-    path: "/pages/index/catCafe",
-  },
+  toolbox: [
+    {
+      icon: "photo",
+      name: "校历",
+      path: "",
+    },
+    {
+      icon: "photo",
+      name: "成绩",
+      path: "",
+    },
+    {
+      icon: "photo",
+      name: "猫咖",
+      path: "",
+    },
+    {
+      icon: "photo",
+      name: "教室",
+      path: "",
+    },
+    {
+      icon: "photo",
+      name: "水电",
+      path: "",
+    },
+    {
+      icon: "photo",
+      name: "校车",
+      path: "",
+    },
+    {
+      icon: "photo",
+      name: "反馈",
+      path: "",
+    },
+    {
+      icon: "photo",
+      name: "赞助",
+      path: "",
+    },
+  ],
   // bbs
   articlePublish: {
     name: "发帖",

@@ -8,13 +8,20 @@
     <view class="head-pic">
       <image mode="aspectFill" src="@/static/images/headpic.jpg"></image>
     </view>
-    <view style="height: 999px"></view>
+    <view class="toolbox">
+      <u-grid col="4">
+        <u-grid-item v-for="(item, index) in RouteConfig.toolbox" @tap="">
+          <u-icon :name="item.icon" size="22" />
+          <view>{{ item.name }}</view>
+        </u-grid-item>
+      </u-grid>
+    </view>
   </view>
 </template>
 
 <script setup lang="ts">
-import Api from "@/public/api";
 import { ref, onMounted } from "vue";
+import RouteConfig from "@/config/routes";
 
 let menu_top = ref<string>("");
 let menu_height = ref<string>("");
@@ -24,13 +31,8 @@ onMounted(() => {
   );
   menu_top.value = menuButtonBoundingClientRect.top + "px";
   menu_height.value = menuButtonBoundingClientRect.height + "px";
-  pageData();
 });
 
-async function pageData() {
-  const res: any = await Api.frontPage();
-  console.log(res);
-}
 </script>
 
 <style>
