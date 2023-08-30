@@ -4,7 +4,10 @@
   </view>
   <view class="article">
     <view class="title">{{ article.title }}</view>
-    <view class="content">{{ article.content }}</view>
+    <view class="content">
+      <uaMarkdown :source="article.content" />
+    </view>
+    
     <u-button @tap="navToArticlePublishPage" v-if="canModify">修改</u-button>
   </view>
   <view class="like">
@@ -39,6 +42,7 @@ import { ref, reactive } from "vue";
 import Reply from "@/model/reply";
 import ReplyList from "@/model/replyList";
 import ReplyItem from "@/components/replyItem.vue";
+import uaMarkdown from "@/components/ua-markdown/ua-markdown.vue";
 
 const reply = ref(new Reply());
 const commitReply = () => {

@@ -2,7 +2,7 @@
   <view class="reply-item">
     <view class="root">
       <view class="author">{{ reply.author.name }}</view>
-      <view class="content">{{ reply.content }}</view>
+      <view class="content"><uaMarkdown :source="reply.content" /></view>
       <u-button @tap="changeReplyBox" type="primary">回复</u-button>
     </view>
     <view class="sencondaryReply">
@@ -33,6 +33,7 @@
 import Api from "@/public/api";
 import { reactive, ref } from "vue";
 import Reply from "@/model/reply";
+import uaMarkdown from "@/components/ua-markdown/ua-markdown.vue";
 
 const props = defineProps({
   articleId: {
