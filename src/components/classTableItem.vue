@@ -59,22 +59,21 @@
         </u-row>
       </u-col>
     </view>
-
-    <u-popup
-      :show="showDetail"
-      mode="center"
-      :round="10"
-      :closeOnClickOverlay="true"
-      @close="closeDetail"
-      :closeable="true"
-    >
-      <view> COURSE DETAIL</view>
-      <view>{{ show["kcmc"] }} {{ show["cdmc"] }}</view>
-      <view>教师: {{ show["xm"] }}</view>
-      <view>学分: {{ show["xf"] }}</view>
-      <view>分类: {{ show["kcxz"] }}</view>
-    </u-popup>
   </view>
+  <u-popup
+    :show="showDetail"
+    mode="center"
+    :round="10"
+    :closeOnClickOverlay="true"
+    @close="closeDetail"
+    :closeable="true"
+  >
+    <view> COURSE DETAIL</view>
+    <view>{{ show["kcmc"] }} {{ show["cdmc"] }}</view>
+    <view>教师: {{ show["xm"] }}</view>
+    <view>学分: {{ show["xf"] }}</view>
+    <view>分类: {{ show["kcxz"] }}</view>
+  </u-popup>
 </template>
 
 <script setup lang="ts">

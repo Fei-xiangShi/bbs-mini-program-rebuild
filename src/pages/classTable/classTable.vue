@@ -93,14 +93,8 @@ onLoad(() => {
     refreshClassTable();
     briefList.value = formatClassTable();
   }
-  const currentDate = Number(new Date());
-  const startDate = Number(new Date(semester.start));
-  const daysDiff = Math.floor(
-    (currentDate - startDate) / (7 * 24 * 60 * 60 * 1000)
-  );
-  const currentWeek = Math.max(1, Math.min(20, Math.floor(daysDiff / 7) + 1));
-
-  now.value = currentWeek;
+  
+  now.value = uni.getStorageSync("currentWeek") || 1;
 });
 let startX = 0;
 let startY = 0;
