@@ -1,3 +1,5 @@
+import classArrangement from "@/config/classArrangement";
+
 const expandRanges = (ranges: string[]): number[] => {
   const result: number[] = [];
 
@@ -59,6 +61,7 @@ const formatClassTable = () => {
     "jc",
     "xqj",
     "zcd",
+    "kch",
   ];
   let courseByWeeks: any = {};
   classTable.value.forEach((item: any) => {
@@ -70,10 +73,10 @@ const formatClassTable = () => {
     item["zcd"] = item["zcd"].replace(/周/g, "").split(",");
     item["zcd"] = expandRanges(item["zcd"]);
     let weeks = item["zcd"];
-    console.log(weeks);
     item["jc"] = expandSchedule(item["jc"].replace(/节/g, "").split(","));
+    item.start = (classArrangement[item["jc"][0] as keyof typeof classArrangement] as string).split(" ")[0];
+    item.end = (classArrangement[item["jc"][item["jc"].length - 1] as keyof typeof classArrangement] as string).split(" ")[1];
     let day = item["xqj"];
-    console.log(day);
     for (let week = 0; week < weeks.length; week++) {
       if (!courseByWeeks[weeks[week]]) {
         courseByWeeks[weeks[week]] = {};

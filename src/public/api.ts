@@ -17,6 +17,8 @@ const Api = {
       });
     });
   },
+  // 获取天气
+  getWeather: () => http.get(apiUrl.getWeather, {}),
   // 获取登录状态
   getJwtIsExpired: () => http.get("/", {}),
   // 获取首页数据
@@ -57,6 +59,14 @@ const Api = {
   getMenu: () => http.get(apiUrl.getMenu, {}),
   // 获取课程表
   getClassTable: () => http.get(apiUrl.getClassTable, {}),
+  // 获取电费
+  getElectricityExpense: (buildId: string, roomCode: string) =>
+    http.get(apiUrl.getElectricityExpense, {
+      buildId: buildId,
+      roomCode: roomCode,
+    }),
+  // 获取成绩
+  getGrades: () => http.get(apiUrl.getGrades, {}),
 };
 
 export default Api;

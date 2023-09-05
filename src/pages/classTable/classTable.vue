@@ -2,7 +2,7 @@
   <view class="statusBar" :style="{ paddingTop: statusBarHeight + 'px' }" />
   <view class="navBar">
     <view class="title">
-      <u-text class="title-text" :text="currentDate" />
+      {{ currentDate }}
     </view>
   </view>
   <view class="body">
@@ -49,8 +49,8 @@ import { ref } from "vue";
 import Api from "@/public/api";
 import { onLoad } from "@dcloudio/uni-app";
 import formatClassTable from "@/utils/formatClassTable";
-import semester from "@/config/semesterDuration";
 import classTable from "@/components/classTableItem.vue";
+import RouteConfig from "@/config/routes";
 
 const statusBarHeight = uni.getSystemInfoSync().statusBarHeight;
 const now = ref(1);
@@ -83,6 +83,9 @@ const refreshClassTable = () => {
     uni.setStorageSync("classTable", res.data || []);
     briefList.value = formatClassTable();
     isRefreshing.value = false;
+    uni.reLaunch({
+      url: RouteConfig.classTable.path,
+    });
   });
 };
 
@@ -124,16 +127,23 @@ const touchEnd = (e: any) => {
 </script>
 
 <style lang="scss" scoped>
+.title {
+  margin-left: 1rem;
+  font-size: 18px;
+  font-weight: bold;
+  color: #303133;
+}
+
 .statusBar {
   width: 100%;
   height: 0;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(28, 167, 167);
 }
 
 .navBar {
   display: flex;
   align-items: center;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(28, 167, 167);
   color: #fff;
   height: 44px;
 }
@@ -155,6 +165,11 @@ const touchEnd = (e: any) => {
 .reloading {
   animation: rotateAnimation 2s linear infinite;
   pointer-events: none;
+}
+
+.classTable {
+  margin-bottom: 1rem;
+  border-radius: 10px;
 }
 
 @keyframes rotateAnimation {

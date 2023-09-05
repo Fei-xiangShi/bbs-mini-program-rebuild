@@ -144,12 +144,7 @@ onMounted(() => {
 .search-bar {
   margin: 0 auto;
   padding: 10upx;
-  background: linear-gradient(
-    to bottom right,
-    rgba(#b39cd0, 0.5),
-    rgba(#00c9a7, 0.3),
-    rgba(#c4fcef, 0.5)
-  );
+
 }
 
 .article-box {
@@ -174,6 +169,7 @@ onMounted(() => {
   height: 3.5rem;
   border: 2px solid;
   border-radius: 60px;
+  z-index: 999;
   ::before,
   ::after {
     content: "";

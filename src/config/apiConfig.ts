@@ -3,6 +3,8 @@ import SiteConfig from "@/config/requestUrl";
 const Url = {
   // ip
   getIpInfo: "http://ip-api.com/json/?lang=zh-CN",
+  // 天气
+  getWeather: "/weather",
   // 主页
   frontPage: "/frontPage",
   // 文章
@@ -21,6 +23,10 @@ const Url = {
   getMenu: "/menu",
   // 课表
   getClassTable: "/classTable",
+  // 电费
+  getElectricityExpense: "/electricityExpense",
+  // 成绩
+  getGrades: "/grades",
 };
 
 export default Url;

@@ -9,8 +9,8 @@
   "pages": [
     {
       "path": "pages/login/login",
-      "style":{
-        "navigationStyle":"custom"
+      "style": {
+        "navigationStyle": "custom"
       }
     },
     {
@@ -49,6 +49,32 @@
     },
     {
       "path": "pages/home/modifyPersonalInfo"
+    }
+  ],
+  "subPackages": [
+    {
+      "root": "pages/tool",
+      "pages": [
+        {
+          "path": "ElectricityExpense",
+          "style": {
+            "navigationBarTitleText": "电费查询",
+            "navigationStyle": "custom"
+          }
+        },
+
+        {
+          "path": "schoolSchedule",
+          "style": {
+            "navigationBarTitleText": "公告详情",
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "about"
+        }
+        
+      ]
     }
   ],
   "globalStyle": {

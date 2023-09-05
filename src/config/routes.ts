@@ -31,27 +31,27 @@ const RouteConfig = {
     {
       icon: "photo",
       name: "校历",
-      path: "",
+      path: "/pages/tool/schoolSchedule",
     },
     {
       icon: "photo",
       name: "成绩",
-      path: "",
+      path: "/pages/tool/grade",
     },
     {
       icon: "photo",
       name: "猫咖",
-      path: "",
+      path: "/pages/catCafe/catCafe",
     },
     {
       icon: "photo",
       name: "教室",
-      path: "",
+      path: "/pages/tool/classroom",
     },
     {
       icon: "photo",
       name: "水电",
-      path: "",
+      path: "/pages/tool/ElectricityExpense",
     },
     {
       icon: "photo",
@@ -65,8 +65,8 @@ const RouteConfig = {
     },
     {
       icon: "photo",
-      name: "赞助",
-      path: "",
+      name: "关于",
+      path: "/pages/tool/about",
     },
   ],
   // bbs
