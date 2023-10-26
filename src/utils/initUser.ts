@@ -44,11 +44,30 @@ const setClassTable = () => {
   }
 };
 
+const setWeather = () => {
+  let weather = uni.getStorageSync("weather");
+  if (weather.length === 0) {
+    Api.getWeather().then((res: any) => {
+      uni.setStorageSync("weather", res.data.result.daily || []);
+    });
+  }
+};
+
+const setSafeTop = () => {
+  let safetop = uni.getStorageSync("menuButtonBoundingClientRect");
+  if (!safetop || safetop.length === 0 || safetop === null || safetop === undefined) {
+    safetop = uni.getMenuButtonBoundingClientRect();
+    uni.setStorageSync("menuButtonBoundingClientRect", safetop);
+  }
+};
+
 const initUser = () => {
   setJwtExpiration();
   setUser();
   setMenu();
   setClassTable();
+  setWeather();
+  setSafeTop();
 };
 
 export default initUser;

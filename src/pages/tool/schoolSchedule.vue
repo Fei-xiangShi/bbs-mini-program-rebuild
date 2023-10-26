@@ -15,8 +15,17 @@ const navBack = () => {
 
 <style lang="scss" scoped>
 .schoolSicheduleImg {
+  margin-top: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
-  margin: auto;
+  overflow: hidden;
+  image {
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>

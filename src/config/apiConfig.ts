@@ -14,6 +14,7 @@ const Url = {
   searchArticle: SiteConfig.passageUrl + "/search",
   publishArticle: SiteConfig.passageUrl + "/publish",
   likeArticle: SiteConfig.passageUrl + "/like/",
+  likeArticleStatus: SiteConfig.passageUrl + "/likeStatus/",
   reply: SiteConfig.passageUrl + "/reply/",
   // 登录
   swuLogin: "/swuLogin",

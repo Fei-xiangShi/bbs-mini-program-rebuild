@@ -21,7 +21,11 @@
       }
     },
     {
-      "path": "pages/home/home"
+      "path": "pages/home/home",
+      "style": {
+        "navigationBarTitleText": "我的",
+        "navigationStyle": "custom"
+      }
     },
     {
       "path": "pages/catCafe/catCafe"
@@ -48,7 +52,10 @@
       "path": "pages/bbs/articleDetail"
     },
     {
-      "path": "pages/home/modifyPersonalInfo"
+      "path": "pages/home/modifyPersonalInfo",
+      "style": {
+        "navigationBarTitleText": "修改个人信息"
+      }
     }
   ],
   "subPackages": [
@@ -72,6 +79,21 @@
         },
         {
           "path": "about"
+        },
+        {
+          "path": "about/introduction"
+        },
+        {
+          "path": "about/progress"
+        },
+        {
+          "path": "about/sponsor"
+        },
+        {
+          "path": "feedback"
+        },
+        {
+          "path": "classroom"
         }
         
       ]

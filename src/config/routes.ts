@@ -24,7 +24,11 @@ const RouteConfig = {
   },
   modifyPersonalInfo: {
     name: "修改个人信息",
-    path: "/pages/home/modifyPersonalInfo"
+    path: "/pages/home/modifyPersonalInfo",
+  },
+  feedback: {
+    name: "反馈",
+    path: "/pages/home/feedback",
   },
   // index
   toolbox: [
@@ -61,12 +65,30 @@ const RouteConfig = {
     {
       icon: "photo",
       name: "反馈",
-      path: "",
+      path: "/pages/tool/feedback",
     },
     {
       icon: "photo",
       name: "关于",
       path: "/pages/tool/about",
+    },
+  ],
+  // about
+  about: [
+    {
+      name: "介绍",
+      path: "/pages/tool/about/introduction",
+      icon: "https://cdn.uviewui.com/uview/example/tag.png",
+    },
+    {
+      name: "开发进度",
+      path: "/pages/tool/about/progress",
+      icon: "https://cdn.uviewui.com/uview/example/tag.png",
+    },
+    {
+      name: "赞助",
+      path: "/pages/tool/about/sponsor",
+      icon: "https://cdn.uviewui.com/uview/example/tag.png",
     },
   ],
   // bbs

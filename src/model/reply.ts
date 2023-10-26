@@ -1,12 +1,12 @@
 import User from "./userInfo";
 
 export default class Reply {
-  id = 0;
-  passageId = 0;
-  author = new User();
-  content = "";
-  gmtCreate = 0;
-  isDelete = false;
-  rootReplyId = null;
-  parentReplyId = null;
+  id: number = 0;
+  passageId: number = 0;
+  author: User = new User();
+  content: string = "";
+  gmtCreate: number = 0;
+  isDelete: boolean = false;
+  rootReplyId: number | null = null;
+  parentReplyId: number | null = null;
 }

@@ -25,7 +25,7 @@
 
   <u-overlay :show="showSidebar" @tap="toggleSidebar">
     <view class="sidebar" v-if="showSidebar" @tap.stop>
-      <view class="sidebar-title">你好</view>
+      <view class="sidebar-title">板块列表</view>
       <view class="menu">
         <scroll-view scroll-y="true" style="height: 100%">
           <view
@@ -89,13 +89,13 @@ onHide(() => {
 .statusBar {
   width: 100%;
   height: 0;
-  background-color: rgb(28, 167, 167);
+  background-color: rgb(105, 106, 173);
 }
 
 .navBarBox .navBar {
   display: flex;
   align-items: center;
-  background-color: rgb(28, 167, 167);
+  background-color: rgb(105, 106, 173);
   color: #fff;
   height: 44px;
 }

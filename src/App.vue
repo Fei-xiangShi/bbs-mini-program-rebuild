@@ -5,7 +5,7 @@ import formatClassTable from "./utils/formatClassTable";
 import Api from "./public/api";
 onLaunch(() => {
   let safetop = uni.getStorageSync("menuButtonBoundingClientRect");
-  if (!safetop) {
+  if (!safetop || safetop.length === 0 || safetop === null || safetop === undefined) {
     safetop = uni.getMenuButtonBoundingClientRect();
     uni.setStorageSync("menuButtonBoundingClientRect", safetop);
   }

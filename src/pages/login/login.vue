@@ -20,20 +20,22 @@
           placeholder-style="color:black;"
         />
         <u-checkbox-group direction="horizontal">
-          <u-checkbox
-            @change="changeAccessbility"
-            shape="circle"
-            active-color="green"
-            name="agree"
-          />
-          <view style="color: white" class="login-checkbox-text"
-            >我已详细阅读并同意了<span
-              class="user-agreement"
-              @click="showUserAgreement"
-              >用户协议</span
-            ></view
-          >
+          <view class="check-box">
+            <u-checkbox
+              @change="changeAccessbility"
+              shape="circle"
+              active-color="green"
+            />
+            <view class="login-checkbox-text"
+              >我已详细阅读并同意了<span
+                class="user-agreement"
+                @tap="showUserAgreement"
+                >用户协议</span
+              ></view
+            >
+          </view>
         </u-checkbox-group>
+
         <button @tap="login" v-if="!isloading" :disabled="isAgree === false" />
         <u-loading-icon mode="semicircle" size="45" v-if="isloading" />
       </form>
@@ -156,9 +158,10 @@ onLoad(() => {
   right: 2%;
 }
 
-.login-checkbox-text {
-  position: relative;
-  top: 3px;
+.check-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .user-agreement {
@@ -200,6 +203,12 @@ onLoad(() => {
   height: 100vh;
   width: 100%;
   bottom: 0px;
+}
+
+.login-checkbox-text {
+  color: white;
+  font-size: 14px;
+  margin-left: 10px;
 }
 
 .user-img {

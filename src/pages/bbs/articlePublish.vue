@@ -1,55 +1,88 @@
 <template>
-  <form class="passage" @submit="publish">
-    <view class="publish">
-      <u-input
-        class="title"
-        placeholder="标题"
-        v-model="article.title"
-      ></u-input>
-      <u-input
+  <view class="publish">
+    <view class="title">
+      <u-input class="title" placeholder="标题" v-model="article.title" />
+    </view>
+    <view class="content">
+      <u-textarea
         class="content"
-        placeholder="内容"
+        placeholder="分享新鲜事"
         v-model="article.content"
-      ></u-input>
+        maxlength="10000"
+        count
+        confirm-type="完成"
+      />
+    </view>
+    <view class="thumbnail">
       <u-input
         class="content"
-        placeholder="图片链接"
+        placeholder="头图链接"
         v-model="article.thumbnailUrl"
-      ></u-input>
+      />
     </view>
-    <view>
-      <u-button class="primary" @tap="publish">{{
-        article.id ? "修改" : "发布"
-      }}</u-button>
-    </view>
-  </form>
+  </view>
+  <view class="visibility">
+    <view>设置可见性</view>
+    <u-radio-group v-model="article.visibility">
+      <u-radio label="可见" @change="article.visibility = 1" name="1" />
+      <u-radio label="不可见" @change="article.visibility = 0" name="0" />
+    </u-radio-group>
+  </view>
+  <view class="set-category">
+    <u-picker
+      :show="showPicker"
+      title="选择分类"
+      :columns="categories"
+      closeOnClickOverlay
+      @close="togglePicker"
+      @confirm="chooseCategory"
+      @cancel="togglePicker"
+      keyName="name"
+    ></u-picker>
+    <u-button @tap="togglePicker">选择分类</u-button>
+  </view>
+  <view>
+    <u-button class="primary" @tap="publish">{{
+      article.id ? "修改" : "发布"
+    }}</u-button>
+  </view>
 </template>
 
 <script setup lang="ts">
 import Api from "@/public/api";
 import Ariticle from "@/model/article";
 import { onLoad } from "@dcloudio/uni-app";
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import routes from "@/config/routes";
 
 let article = ref(new Ariticle());
+const showPicker = ref(false);
+const categories = reactive([
+  uni.getStorageSync("menu").filter((category: { name: string }) => {
+    return category.name !== "热门";
+  }),
+]);
+const togglePicker = () => {
+  showPicker.value = !showPicker.value;
+};
+
+const chooseCategory = (e: any) => {
+  article.value.category = e.values[0][0].id;
+  togglePicker();
+};
 
 const publish = () => {
   if (!checkArticleValidation()) {
     return;
   }
-  article.value.visibility = 1;
-  article.value.category = 2
   article.value.status = 0;
   Api.publishArticle(article.value).then((res: any) => {
-    console.log(article.value);
     if (res.statusCode === 200) {
       uni.showToast({
         title: "发布成功",
         icon: "none",
       });
-      uni.reLaunch({url: routes.bbs.path});
-      
+      uni.reLaunch({ url: routes.bbs.path });
     }
   });
 };
@@ -78,10 +111,10 @@ const checkArticleValidation = () => {
   }
   if (
     article.value.content.length < 10 ||
-    article.value.content.length > 2000
+    article.value.content.length > 10000
   ) {
     uni.showToast({
-      title: "内容长度应在10-2000个字符之间",
+      title: "内容长度应在10-10000个字符之间",
       icon: "none",
     });
     return false;
@@ -106,4 +139,28 @@ onLoad((option) => {
 });
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.publish {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  .title {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .content {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .thumbnail {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+.primary {
+  margin: 20px;
+}
+</style>

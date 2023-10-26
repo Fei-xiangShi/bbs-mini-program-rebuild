@@ -45,6 +45,7 @@ const Api = {
   publishArticle: (article: object) =>
     http.post(apiUrl.publishArticle, article),
   likeArticle: (id: number) => http.get(apiUrl.likeArticle + id, {}),
+  getLikeArticleStatus: (id: number) => http.get(apiUrl.likeArticleStatus + id, {}),
   reply: (id: number, reply: object) => http.post(apiUrl.reply + id, reply),
   getReplyList: (id: number, page: number) =>
     http.get(apiUrl.reply + id, { page: page }),

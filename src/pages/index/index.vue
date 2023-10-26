@@ -27,6 +27,9 @@
       <view class="className">{{ className }}</view>
       <view class="classLocation">{{ classLocation }}</view>
     </view>
+    <view class="to-do-list">
+      <toDoList />
+    </view>
   </view>
 </template>
 
@@ -35,6 +38,7 @@ import { ref, onMounted } from "vue";
 import RouteConfig from "@/config/routes";
 import semester from "@/config/semesterDuration";
 import { weatherName } from "@/config/weatherName";
+import toDoList from "@/components/toDoList.vue";
 
 let menu_top = ref<string>("");
 let menu_height = ref<string>("");
